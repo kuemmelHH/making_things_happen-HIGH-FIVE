@@ -1,0 +1,557 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Das große Abklatschen</title>
+<meta name="description" content="Gemeinsamer 3-2-1-Countdown und Konfetti-High-Five als Abschluss für Remote-Workshops.">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>%E2%9C%8B</text></svg>">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=Instrument+Sans:wght@400;500;600&family=Space+Mono:wght@700&display=swap">
+<style>
+  :root{
+    --blue:#1D3FE8;
+    --blue-deep:#132BA6;
+    --cream:#FFF4E3;
+    --tangerine:#FF5B22;
+    --chartreuse:#D6F24A;
+    --lilac:#B9A7FF;
+    --pink:#FF9EC4;
+    --mint:#48E0D0;
+    --display:"Bricolage Grotesque","Trebuchet MS",system-ui,sans-serif;
+    --body:"Instrument Sans","Helvetica Neue",Arial,sans-serif;
+    --mono:"Space Mono","SFMono-Regular",Consolas,monospace;
+  }
+  *{box-sizing:border-box}
+  [hidden]{display:none!important}
+  html,body{height:100%}
+  body{
+    margin:0;
+    background:var(--blue);
+    color:var(--cream);
+    font-family:var(--body);
+    -webkit-font-smoothing:antialiased;
+    overflow:hidden;
+  }
+  img{max-width:100%}
+  body::before{
+    content:"";
+    position:fixed;inset:0;
+    background:
+      radial-gradient(120% 90% at 50% 8%, rgba(185,167,255,.30), transparent 60%),
+      radial-gradient(90% 70% at 12% 100%, rgba(255,91,34,.28), transparent 62%),
+      radial-gradient(80% 60% at 92% 84%, rgba(72,224,208,.22), transparent 60%);
+    pointer-events:none;
+  }
+  .stage{
+    position:relative;z-index:10;
+    min-height:100dvh;
+    display:grid;
+    grid-template-rows:auto 1fr auto;
+    gap:clamp(12px,2vh,28px);
+    padding:clamp(14px,2.4vw,26px);
+  }
+
+  /* ---------- top bar ---------- */
+  .topbar{display:flex;flex-wrap:wrap;align-items:center;gap:12px 18px}
+  .eyebrow{
+    font-family:var(--mono);font-size:11px;letter-spacing:.18em;text-transform:uppercase;
+    color:var(--chartreuse);
+  }
+  .eyebrow b{color:var(--cream);font-weight:700}
+  .peers{display:flex;flex-wrap:wrap;gap:6px;margin-left:auto;justify-content:flex-end;max-width:min(560px,60vw)}
+  .chip{
+    display:inline-flex;align-items:center;gap:7px;
+    padding:5px 11px 5px 8px;border-radius:999px;
+    background:rgba(255,244,227,.10);
+    border:1.5px solid rgba(255,244,227,.28);
+    font-size:13px;line-height:1;white-space:nowrap;
+  }
+  .chip.me{border-color:var(--chartreuse);background:rgba(214,242,74,.16)}
+  .dot{width:9px;height:9px;border-radius:99px;flex:none}
+
+  /* ---------- scene ---------- */
+  .scene{display:grid;place-items:center;text-align:center}
+  .panel{display:grid;justify-items:center;gap:clamp(14px,2.2vh,26px);max-width:min(760px,92vw)}
+  h1{
+    font-family:var(--display);font-weight:800;
+    font-size:clamp(2.1rem,5.4vw,4.2rem);
+    line-height:.96;letter-spacing:-.03em;margin:0;text-wrap:balance;
+  }
+  h1 em{font-style:normal;color:var(--chartreuse)}
+  .lede{margin:0;font-size:clamp(1rem,1.9vw,1.2rem);max-width:34ch;color:rgba(255,244,227,.82);text-wrap:balance}
+  .micro{font-family:var(--mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;opacity:.7;margin:0}
+
+  .namebox{display:flex;gap:8px;align-items:center}
+  .namebox input{
+    font-family:var(--body);font-size:16px;color:var(--cream);
+    background:rgba(255,244,227,.10);
+    border:1.5px solid rgba(255,244,227,.34);
+    border-radius:999px;padding:11px 18px;width:min(230px,52vw);outline:none;
+  }
+  .namebox input::placeholder{color:rgba(255,244,227,.5)}
+  .namebox input:focus-visible{border-color:var(--chartreuse);box-shadow:0 0 0 3px rgba(214,242,74,.32)}
+
+  .btn{
+    font-family:var(--display);font-weight:800;
+    font-size:clamp(1.15rem,2.6vw,1.6rem);letter-spacing:-.01em;
+    color:var(--blue-deep);background:var(--chartreuse);
+    border:none;border-radius:999px;
+    padding:clamp(14px,1.8vh,20px) clamp(26px,4vw,42px);
+    cursor:pointer;box-shadow:0 8px 0 #9ec01f;
+    transition:transform .12s ease,box-shadow .12s ease;
+  }
+  .btn:hover{transform:translateY(-2px);box-shadow:0 10px 0 #9ec01f}
+  .btn:active{transform:translateY(6px);box-shadow:0 2px 0 #9ec01f}
+  .btn.ghost{
+    background:transparent;color:var(--cream);
+    border:2px solid rgba(255,244,227,.45);box-shadow:none;
+    font-size:1rem;padding:11px 22px;
+  }
+  .btn.ghost:hover{border-color:var(--cream);transform:none}
+  .btn.ghost:active{transform:translateY(2px);box-shadow:none}
+  :focus-visible{outline:3px solid var(--cream);outline-offset:3px}
+
+  /* ---------- countdown ---------- */
+  .tick{
+    font-family:var(--display);font-weight:800;
+    font-size:clamp(8rem,30vw,20rem);line-height:.8;letter-spacing:-.06em;
+    color:var(--cream);animation:pop .9s cubic-bezier(.2,1.4,.4,1);
+  }
+  @keyframes pop{0%{transform:scale(.3);opacity:0}45%{transform:scale(1.06);opacity:1}100%{transform:scale(1)}}
+  .tick-sub{font-family:var(--mono);font-size:12px;letter-spacing:.3em;text-transform:uppercase;color:var(--chartreuse)}
+
+  /* ---------- live ---------- */
+  .slapwrap{display:grid;justify-items:center;gap:16px}
+  .slap{
+    -webkit-tap-highlight-color:transparent;
+    width:clamp(190px,34vh,300px);height:clamp(190px,34vh,300px);
+    border-radius:999px;border:none;cursor:pointer;
+    background:var(--tangerine);color:var(--cream);
+    display:grid;place-items:center;
+    box-shadow:0 0 0 10px rgba(255,244,227,.16), 0 14px 0 #c33c11;
+    transition:transform .07s ease,box-shadow .07s ease;
+  }
+  .slap svg{width:56%;height:auto;display:block}
+  .slap:active{transform:scale(.94) translateY(6px);box-shadow:0 0 0 18px rgba(255,244,227,.22),0 4px 0 #c33c11}
+  .now{
+    font-family:var(--display);font-weight:800;
+    font-size:clamp(2.6rem,9vw,5rem);line-height:.9;letter-spacing:-.03em;
+    color:var(--chartreuse);margin:0;
+  }
+  .bar{width:min(420px,80vw);height:8px;border-radius:99px;background:rgba(255,244,227,.22);overflow:hidden}
+  .bar i{display:block;height:100%;background:var(--chartreuse);width:100%;transform-origin:left}
+  .tally{font-family:var(--mono);font-size:clamp(1rem,2.4vw,1.4rem);letter-spacing:.06em;font-variant-numeric:tabular-nums}
+
+  /* ---------- result ---------- */
+  .score{
+    font-family:var(--display);font-weight:800;
+    font-size:clamp(4.5rem,17vw,11rem);line-height:.82;letter-spacing:-.05em;
+    color:var(--chartreuse);font-variant-numeric:tabular-nums;
+  }
+  .board{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;max-width:min(680px,92vw)}
+  .board .chip{font-family:var(--mono);font-size:12px;letter-spacing:.04em}
+  .board .chip b{font-weight:700;color:var(--chartreuse)}
+
+  /* ---------- footer ---------- */
+  .footer{
+    display:flex;flex-wrap:wrap;gap:6px 16px;align-items:center;justify-content:space-between;
+    font-family:var(--mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;
+    color:rgba(255,244,227,.62);
+  }
+  .status{display:inline-flex;align-items:center;gap:8px}
+  .status .dot{width:8px;height:8px;background:var(--mint);box-shadow:0 0 0 3px rgba(72,224,208,.25)}
+  .status.solo .dot{background:var(--pink);box-shadow:0 0 0 3px rgba(255,158,196,.25)}
+
+  #fx{position:fixed;inset:0;z-index:60;pointer-events:none}
+
+  .setup{
+    position:fixed;inset:auto 0 0 0;z-index:70;
+    background:var(--tangerine);color:var(--cream);
+    font-family:var(--mono);font-size:12px;line-height:1.6;letter-spacing:.02em;
+    padding:14px clamp(14px,2.4vw,26px);
+  }
+  .setup code{background:rgba(19,43,166,.35);padding:1px 6px;border-radius:4px}
+  body.needssetup .stage{padding-bottom:clamp(84px,12vh,110px)}
+
+  @media (prefers-reduced-motion:reduce){
+    *{animation-duration:.01ms!important;transition-duration:.01ms!important}
+  }
+  @media (max-width:620px){
+    .peers{margin-left:0;max-width:100%;justify-content:flex-start}
+    .topbar{gap:10px}
+  }
+</style>
+</head>
+<body>
+
+<canvas id="fx"></canvas>
+
+<div class="stage">
+  <header class="topbar">
+    <span class="eyebrow"><b>Das große Abklatschen</b> &nbsp;·&nbsp; <span id="roomlabel">Workshop-Finale</span></span>
+    <div class="peers" id="peers"></div>
+  </header>
+
+  <main class="scene">
+
+    <section class="panel" id="p-lobby">
+      <h1>Hände hoch.<br>Gleich <em>klatscht</em> es.</h1>
+      <p class="lede">Alle öffnen diesen Link. Wer bereit ist, startet den Countdown – dann klatschen alle gleichzeitig ab.</p>
+      <div class="namebox">
+        <input id="name" type="text" placeholder="Dein Name" maxlength="18" autocomplete="off" spellcheck="false">
+      </div>
+      <button class="btn" id="start">3 · 2 · 1 starten</button>
+      <p class="micro">Wer startet, startet für alle</p>
+    </section>
+
+    <section class="panel" id="p-count" hidden>
+      <div class="tick" id="tick">3</div>
+      <div class="tick-sub">Hand bereit halten</div>
+    </section>
+
+    <section class="panel" id="p-live" hidden>
+      <p class="now">JETZT!</p>
+      <div class="slapwrap">
+        <button class="slap" id="slap" aria-label="High Five geben">
+          <svg viewBox="0 0 120 132" aria-hidden="true">
+            <g fill="currentColor">
+              <rect x="24" y="62" width="13" height="46" rx="6.5" transform="rotate(-40 30.5 85)"/>
+              <rect x="31" y="28" width="12" height="52" rx="6"/>
+              <rect x="47" y="19" width="12" height="61" rx="6"/>
+              <rect x="63" y="23" width="12" height="57" rx="6"/>
+              <rect x="79" y="33" width="12" height="47" rx="6"/>
+              <rect x="30" y="52" width="61" height="64" rx="26"/>
+            </g>
+          </svg>
+        </button>
+        <div class="bar"><i id="bar"></i></div>
+        <div class="tally" id="tally">0 High Fives</div>
+      </div>
+    </section>
+
+    <section class="panel" id="p-result" hidden>
+      <div class="score" id="score">0</div>
+      <h1 id="verdict">High Fives</h1>
+      <p class="lede" id="resultsub"></p>
+      <div class="board" id="board"></div>
+      <button class="btn ghost" id="again">Nochmal</button>
+    </section>
+
+  </main>
+
+  <footer class="footer">
+    <span class="status" id="status"><span class="dot"></span><span id="statustext">verbinde …</span></span>
+    <span>Tippen, hämmern, alles erlaubt</span>
+  </footer>
+</div>
+
+<div class="setup" id="setup" hidden>
+  <b>Solo-Modus.</b> Trage in <code>index.html</code> ganz unten bei <code>SUPABASE_URL</code> und <code>SUPABASE_KEY</code>
+  deine Supabase-Zugangsdaten ein, damit alle gemeinsam klatschen. Bis dahin funktioniert alles – nur eben für jede Person einzeln.
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+/* ==========================================================================
+   HIER EINTRAGEN  ─────────────────────────────────────────────────────────
+   Beide Werte findest du in deinem Supabase-Projekt unter
+   Project Settings → API.  Sie dürfen öffentlich im Code stehen.
+   ========================================================================== */
+var SUPABASE_URL = "https://pilgtfvxlujxdthnkpdw.supabase.co";
+var SUPABASE_KEY = "sb_publishable_iYzbUYtUVMiLOQMHagIpKA_TNtvS-O6";
+/* ========================================================================== */
+
+(function(){
+  "use strict";
+  var PALETTE=["#FF5B22","#D6F24A","#FFF4E3","#B9A7FF","#FF9EC4","#48E0D0"];
+  var LIVE_MS=5000;
+  var SEND_EVERY=250;
+
+  var $=function(id){return document.getElementById(id);};
+  var panels={lobby:$("p-lobby"),count:$("p-count"),live:$("p-live"),result:$("p-result")};
+  function show(name){for(var k in panels){panels[k].hidden=(k!==name);}}
+
+  /* ---------- raum aus der URL: ?raum=team-nord ---------- */
+  var roomName="finale";
+  try{
+    var q=new URLSearchParams(location.search).get("raum");
+    if(q)roomName=q.toLowerCase().replace(/[^a-z0-9_-]/g,"").slice(0,40)||"finale";
+  }catch(e){}
+  $("roomlabel").textContent="Raum: "+roomName;
+
+  /* ---------- identität ---------- */
+  function store(k,v){try{if(v===undefined)return localStorage.getItem(k);localStorage.setItem(k,v);}catch(e){return null;}}
+  var myId="p"+Math.random().toString(36).slice(2,10);
+  var myColor=PALETTE[Math.floor(Math.random()*PALETTE.length)];
+  var myName=(store("hf-name")||"").slice(0,18);
+  $("name").value=myName;
+
+  /* ---------- konfetti ---------- */
+  var cv=$("fx"),ctx=cv.getContext("2d"),parts=[],raf=null;
+  var reduce=window.matchMedia&&matchMedia("(prefers-reduced-motion:reduce)").matches;
+  function fit(){var d=Math.min(window.devicePixelRatio||1,2);cv.width=innerWidth*d;cv.height=innerHeight*d;ctx.setTransform(d,0,0,d,0,0);}
+  fit();addEventListener("resize",fit);
+  function burst(x,y,n){
+    if(reduce)n=Math.min(n,6);
+    if(parts.length>900)return;
+    for(var i=0;i<n;i++){
+      var a=Math.random()*Math.PI*2,s=3+Math.random()*11;
+      parts.push({x:x,y:y,vx:Math.cos(a)*s,vy:Math.sin(a)*s-4,
+        w:5+Math.random()*9,h:4+Math.random()*7,r:Math.random()*Math.PI,
+        vr:(Math.random()-.5)*.4,c:PALETTE[(Math.random()*PALETTE.length)|0],life:1});
+    }
+    if(!raf)raf=requestAnimationFrame(tickFx);
+  }
+  function tickFx(){
+    ctx.clearRect(0,0,innerWidth,innerHeight);
+    for(var i=parts.length-1;i>=0;i--){
+      var p=parts[i];
+      p.vy+=.42;p.vx*=.99;p.x+=p.vx;p.y+=p.vy;p.r+=p.vr;p.life-=.006;
+      if(p.y>innerHeight+60||p.life<=0){parts.splice(i,1);continue;}
+      ctx.save();ctx.translate(p.x,p.y);ctx.rotate(p.r);
+      ctx.globalAlpha=Math.max(0,Math.min(1,p.life*1.6));
+      ctx.fillStyle=p.c;ctx.fillRect(-p.w/2,-p.h/2,p.w,p.h);ctx.restore();
+    }
+    if(parts.length){raf=requestAnimationFrame(tickFx);}
+    else{ctx.clearRect(0,0,innerWidth,innerHeight);raf=null;}
+  }
+  function scatter(n){
+    var bursts=Math.max(1,Math.min(6,n));
+    for(var i=0;i<bursts;i++){
+      burst(innerWidth*(.12+Math.random()*.76),innerHeight*(.25+Math.random()*.45),12+Math.random()*10);
+    }
+  }
+
+  /* ---------- ton ---------- */
+  var ac=null,lastSounds=[];
+  function audio(){
+    try{
+      if(!ac){var C=window.AudioContext||window.webkitAudioContext;if(!C)return null;ac=new C();}
+      if(ac.state==="suspended")ac.resume();
+      return ac;
+    }catch(e){return null;}
+  }
+  function clap(){
+    var a=audio();if(!a)return;
+    var now=Date.now();
+    lastSounds=lastSounds.filter(function(t){return now-t<120;});
+    if(lastSounds.length>5)return;
+    lastSounds.push(now);
+    var dur=.11,len=Math.floor(a.sampleRate*dur),buf=a.createBuffer(1,len,a.sampleRate),d=buf.getChannelData(0);
+    for(var i=0;i<len;i++){d[i]=(Math.random()*2-1)*Math.pow(1-i/len,3.4);}
+    var src=a.createBufferSource();src.buffer=buf;
+    var bp=a.createBiquadFilter();bp.type="bandpass";bp.frequency.value=1100+Math.random()*1100;bp.Q.value=1.1;
+    var g=a.createGain();g.gain.value=.22;
+    src.connect(bp);bp.connect(g);g.connect(a.destination);src.start();
+  }
+  function blip(freq,len,vol){
+    var a=audio();if(!a)return;
+    var o=a.createOscillator(),g=a.createGain();
+    o.type="triangle";o.frequency.value=freq;
+    g.gain.setValueAtTime(vol||.14,a.currentTime);
+    g.gain.exponentialRampToValueAtTime(.0001,a.currentTime+(len||.18));
+    o.connect(g);g.connect(a.destination);o.start();o.stop(a.currentTime+(len||.2));
+  }
+  function fanfare(){
+    [523,659,784,1047].forEach(function(f,i){setTimeout(function(){blip(f,.32,.12);},i*110);});
+  }
+
+  /* ---------- verbindung ---------- */
+  var channel=null,online=false,people={};
+  function setStatus(text,isSolo){
+    $("statustext").textContent=text;
+    $("status").classList.toggle("solo",!!isSolo);
+  }
+  function goSolo(reason){
+    online=false;channel=null;
+    setStatus(reason||"solo – nur dieses Gerät",true);
+    renderPeers();
+  }
+  function renderPeers(){
+    var box=$("peers");box.innerHTML="";
+    var ids=Object.keys(people);
+    if(!online||!ids.length)return;
+    ids.slice(0,10).forEach(function(id){
+      var info=people[id];
+      var el=document.createElement("span");
+      el.className="chip"+(id===myId?" me":"");
+      var dot=document.createElement("span");dot.className="dot";dot.style.background=info.color||"#FFF4E3";
+      el.appendChild(dot);
+      el.appendChild(document.createTextNode((info.name||"Jemand")+(id===myId?" (du)":"")));
+      box.appendChild(el);
+    });
+    if(ids.length>10){
+      var more=document.createElement("span");more.className="chip";
+      more.textContent="+"+(ids.length-10)+" weitere";box.appendChild(more);
+    }
+    setStatus(ids.length===1?"1 Person hier":ids.length+" Personen hier",false);
+  }
+
+  function connect(){
+    if(!SUPABASE_URL||!SUPABASE_KEY||!window.supabase){
+      $("setup").hidden=false;
+      document.body.classList.add("needssetup");
+      goSolo("solo – nicht eingerichtet");
+      return;
+    }
+    var sb;
+    try{sb=window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY,{realtime:{params:{eventsPerSecond:20}}});}
+    catch(e){goSolo("solo – Zugangsdaten prüfen");return;}
+
+    channel=sb.channel("highfive-"+roomName,{
+      config:{broadcast:{self:false},presence:{key:myId}}
+    });
+
+    channel.on("broadcast",{event:"go"},function(){runSequence();});
+    channel.on("broadcast",{event:"reset"},function(){toLobby();});
+    channel.on("broadcast",{event:"slap"},function(msg){
+      var p=(msg&&msg.payload)||{};
+      registerRemote(String(p.id||"?"),Math.max(1,Math.min(60,Number(p.n)||1)));
+    });
+    channel.on("presence",{event:"sync"},function(){
+      var state=channel.presenceState()||{};
+      people={};
+      Object.keys(state).forEach(function(k){
+        var meta=(state[k]&&state[k][0])||{};
+        people[k]={name:(typeof meta.name==="string"&&meta.name)||"Jemand",
+                   color:(typeof meta.color==="string"&&meta.color)||"#FFF4E3"};
+      });
+      renderPeers();
+    });
+
+    channel.subscribe(function(status){
+      if(status==="SUBSCRIBED"){
+        online=true;
+        setStatus("verbunden",false);
+        channel.track({name:myName||"Jemand",color:myColor});
+      }else if(status==="CHANNEL_ERROR"||status==="TIMED_OUT"||status==="CLOSED"){
+        goSolo("solo – keine Verbindung");
+      }
+    });
+  }
+
+  function send(event,payload){
+    if(!online||!channel)return;
+    try{channel.send({type:"broadcast",event:event,payload:payload||{}});}catch(e){}
+  }
+
+  /* ---------- name ---------- */
+  $("name").addEventListener("input",function(){
+    myName=this.value.slice(0,18);
+    store("hf-name",myName);
+    if(online&&channel){try{channel.track({name:myName||"Jemand",color:myColor});}catch(e){}}
+  });
+
+  /* ---------- runde ---------- */
+  var count=0,tallies={},timers=[],liveUntil=0,barRaf=null,pending=0,flushTimer=null;
+  function clearTimers(){
+    timers.forEach(clearTimeout);timers=[];
+    if(barRaf)cancelAnimationFrame(barRaf);barRaf=null;
+    if(flushTimer)clearInterval(flushTimer);flushTimer=null;
+  }
+  function bump(id,n){
+    count+=n;
+    tallies[id]=(tallies[id]||0)+n;
+    $("tally").textContent=count.toLocaleString("de-DE")+" High Five"+(count===1?"":"s");
+  }
+  function registerRemote(id,n){
+    if(Date.now()>liveUntil)return;
+    bump(id,n);scatter(n);clap();
+  }
+  function registerLocal(pt){
+    if(Date.now()>liveUntil)return;
+    bump(myId,1);pending++;
+    burst(pt.x,pt.y,26);clap();
+  }
+
+  function runSequence(){
+    clearTimers();
+    count=0;tallies={};pending=0;
+    show("count");
+    ["3","2","1"].forEach(function(n,i){
+      timers.push(setTimeout(function(){
+        var t=$("tick");t.textContent=n;
+        t.style.animation="none";void t.offsetWidth;t.style.animation="";
+        blip(440+i*110,.14,.1);
+      },i*800));
+    });
+    timers.push(setTimeout(startLive,2400));
+  }
+
+  function startLive(){
+    show("live");
+    liveUntil=Date.now()+LIVE_MS;
+    $("tally").textContent="0 High Fives";
+    burst(innerWidth/2,innerHeight*.55,60);
+    blip(880,.25,.16);
+    flushTimer=setInterval(function(){
+      if(pending>0){send("slap",{id:myId,n:pending});pending=0;}
+    },SEND_EVERY);
+    (function paint(){
+      var left=Math.max(0,liveUntil-Date.now());
+      $("bar").style.transform="scaleX("+(left/LIVE_MS)+")";
+      if(left>0)barRaf=requestAnimationFrame(paint);
+    })();
+    timers.push(setTimeout(finish,LIVE_MS));
+  }
+
+  function finish(){
+    if(pending>0){send("slap",{id:myId,n:pending});pending=0;}
+    clearTimers();
+    liveUntil=0;
+    show("result");
+    $("score").textContent=count.toLocaleString("de-DE");
+    var hands=Object.keys(tallies).length;
+    $("verdict").textContent=count===0?"Niemand hat geklatscht."
+      :count<30?"High Fives. Solide."
+      :count<150?"High Fives. Stark!"
+      :"High Fives. Wahnsinn!";
+    $("resultsub").textContent=count===0
+      ? "Kein einziger Klatscher. Nochmal?"
+      : "in 5 Sekunden, von "+hands+" "+(hands===1?"Hand":"Händen")+".";
+    var board=$("board");board.innerHTML="";
+    Object.keys(tallies).sort(function(a,b){return tallies[b]-tallies[a];}).slice(0,10).forEach(function(id){
+      var info=people[id]||{name:id===myId?(myName||"Du"):"Jemand",color:"#FFF4E3"};
+      var el=document.createElement("span");el.className="chip";
+      var dot=document.createElement("span");dot.className="dot";dot.style.background=info.color;
+      el.appendChild(dot);
+      el.appendChild(document.createTextNode((info.name||"Jemand")+" "));
+      var b=document.createElement("b");b.textContent="×"+tallies[id];
+      el.appendChild(b);board.appendChild(el);
+    });
+    if(count>0){
+      for(var i=0;i<7;i++){
+        (function(k){setTimeout(function(){burst(innerWidth*(.1+Math.random()*.8),innerHeight*(.2+Math.random()*.4),40);},k*130);})(i);
+      }
+      fanfare();
+    }
+  }
+
+  function toLobby(){clearTimers();liveUntil=0;pending=0;show("lobby");}
+
+  /* ---------- bedienung ---------- */
+  $("start").addEventListener("click",function(){
+    audio();send("go");runSequence();
+  });
+  var slapBtn=$("slap");
+  function doSlap(ev){
+    if(Date.now()>liveUntil)return;
+    var r=slapBtn.getBoundingClientRect();
+    var pt={x:r.left+r.width/2,y:r.top+r.height/2};
+    if(ev&&ev.clientX)pt={x:ev.clientX,y:ev.clientY};
+    registerLocal(pt);
+  }
+  slapBtn.addEventListener("click",doSlap);
+  $("again").addEventListener("click",function(){send("reset");toLobby();});
+  document.addEventListener("keydown",function(e){
+    if(e.code==="Space"&&!panels.live.hidden){e.preventDefault();doSlap(null);}
+  });
+
+  show("lobby");
+  setStatus("verbinde …",false);
+  connect();
+})();
+</script>
+</body>
+</html>
